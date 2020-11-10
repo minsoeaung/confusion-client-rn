@@ -18,3 +18,5 @@ export const ConfigureStore = () => {
     );
     return store;
 }
+
+export default ConfigureStore;
