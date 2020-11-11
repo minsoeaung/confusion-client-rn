@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, StyleSheet, Picker, Switch, Button } from 'react-native';
+import { Text, View, ScrollView, StyleSheet, Picker, Switch, Button, Modal } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 
 class Reservation extends Component {
@@ -10,22 +10,30 @@ class Reservation extends Component {
         this.state = {
             guests: 1,
             smoking: false,
-            date: ''
+            date: '2020-10-10',
+            showModal: false
         }
     };
 
-    static navigationOptions = {
-        title: 'Reserve Table',
-    };
-
-    handleReservation() {
+    toggleModal =  () => { this.setState({showModal : !this.state.showModal}); }
+    
+    handleReservation = () => {
         console.log(JSON.stringify(this.state));
+        this.toggleModal();
+    }
+    
+    resetForm = () => {
         this.setState({
             guests: 1,
             smoking: false,
-            date: ''
+            date: '',
+            showModal: false
         });
     }
+    
+    static navigationOptions = {
+        title: 'Reserve Table'
+    };
 
     render() {
         return (
@@ -56,23 +64,24 @@ class Reservation extends Component {
                 <View style={styles.formRow}>
                     <Text style={styles.formLabel}>Date and Time</Text>
                     <DatePicker
-                        style={{flex: 2, marginRight: 20}}
+                        style={{flex: 2, marginRight: 3}}
                         date={this.state.date}
-                        format=''
-                        mode="datetime"
-                        placeholder="select date and Time"
-                        minDate="10-10-2020"
+                        format="YYYY-MM-DD"
+                        mode="date"
+                        placeholder="select date"
+                        minDate="2020-10-10"
+                        maxDate="2020-12-10"
                         confirmBtnText="Confirm"
                         cancelBtnText="Cancel"
                         customStyles={{
                             dateIcon: {
-                                position: 'absolute',
-                                left: 0,
-                                top: 4,
-                                marginLeft: 0
+                              position: 'absolute',
+                              left: 0,
+                              top: 4,
+                              marginLeft: 0
                             },
                             dateInput: {
-                                marginLeft: 36
+                              marginLeft: 36
                             }
                         }}
                         onDateChange={(date) => {this.setState({date: date})}}
@@ -86,6 +95,24 @@ class Reservation extends Component {
                     accessibilityLabel="Learn more about this purple button"
                     />
                 </View>
+                <Modal animationType = {"slide"} transparent = {false}
+                    visible = {this.state.showModal}
+                    onDismiss = {() => this.toggleModal() }
+                    onRequestClose = {() => this.toggleModal() }
+                >
+                    <View style = {styles.modal}>
+                        <Text style = {styles.modalTitle}>Your Reservation</Text>
+                        <Text style = {styles.modalText}>Number of Guests: {this.state.guests}</Text>
+                        <Text style = {styles.modalText}>Smoking?: {this.state.smoking ? 'Yes' : 'No'}</Text>
+                        <Text style = {styles.modalText}>Date and Time: {this.state.date}</Text>
+                        
+                        <Button 
+                            title="Close" 
+                            color="#512DA8"
+                            onPress = {() =>{this.toggleModal(); this.resetForm();}}
+                        />
+                    </View>
+                </Modal>
             </ScrollView>
         );
     };
@@ -104,7 +131,23 @@ const styles = StyleSheet.create({
         flex: 2
     },
     formItem: {
-        flex: 1
+        flex: 0.2
+    },
+    modal: {
+        justifyContent: 'center',
+        margin: 20
+     },
+    modalTitle: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        backgroundColor: '#512DA8',
+        textAlign: 'center',
+        color: 'white',
+        marginBottom: 20
+    },
+    modalText: {
+        fontSize: 18,
+        margin: 10
     }
 });
 
