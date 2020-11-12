@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, View, Text, StyleSheet } from 'react-native';
+import { FlatList, View, Text, Alert } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { connect } from 'react-redux'
 import { baseUrl } from '../shared/baseUrl';
@@ -49,7 +49,24 @@ class Favorites extends Component {
                                     <Text>Delete</Text>
                                 </View>
                             }
-                            onSwipeableRightOpen = { () => this.props.deleteFavorite(item.id) }
+                            onSwipeableRightOpen = { () => {
+                                Alert.alert(
+                                    'Delete Favorite?',
+                                    'Are you sure you wish to delete the favorite dish '+item.name+'?',
+                                    [
+                                        { 
+                                            text: 'Cancel', 
+                                            onPress: () => console.log(item.name + 'Not Deleted'),
+                                            style: ' cancel'
+                                        },
+                                        {
+                                            text: 'OK',
+                                            onPress: () => this.props.deleteFavorite(item.id)
+                                        }
+                                    ],
+                                    { cancelable: false }
+                                );
+                            } }
                         >
                             <ListItem
                                 key = {index}
