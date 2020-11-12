@@ -11,11 +11,11 @@ class Reservation extends Component {
             guests: 1,
             smoking: false,
             date: '2020-10-10',
-            showModal: false
+            modalVisible: false
         }
     };
 
-    toggleModal =  () => { this.setState({showModal : !this.state.showModal}); }
+    toggleModal =  () => { this.setState({modalVisible : !this.state.modalVisible}); }
     
     handleReservation = () => {
         console.log(JSON.stringify(this.state));
@@ -27,7 +27,7 @@ class Reservation extends Component {
             guests: 1,
             smoking: false,
             date: '',
-            showModal: false
+            modalVisible: false
         });
     }
     
@@ -88,15 +88,15 @@ class Reservation extends Component {
                     />
                 </View>
                 <View style={styles.formRow}>
-                <Button
-                    onPress={() => this.handleReservation()}
-                    title="Reserve"
-                    color="#512DA8"
-                    accessibilityLabel="Learn more about this purple button"
+                    <Button
+                        onPress={() => this.handleReservation()}
+                        title="Reserve"
+                        color="#512DA8"
+                        accessibilityLabel="Learn more about this purple button"
                     />
                 </View>
                 <Modal animationType = {"slide"} transparent = {false}
-                    visible = {this.state.showModal}
+                    visible = {this.state.modalVisible}
                     onDismiss = {() => this.toggleModal() }
                     onRequestClose = {() => this.toggleModal() }
                 >
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
         flex: 2
     },
     formItem: {
-        flex: 0.2
+        flex: 1
     },
     modal: {
         justifyContent: 'center',

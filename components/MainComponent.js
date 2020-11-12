@@ -5,10 +5,10 @@ import Menu from './MenuComponent';
 import Dishdetail from './DishdetailComponent';
 import Contact from './ContactComponent';
 import Reservation from './ReservationComponent';
-import { View, Platform, Text, ScrollView, Image, StyleSheet } from 'react-native';
+import Favorites from './FavoriteComponent';
+import { View, Text, ScrollView, Image, StyleSheet } from 'react-native';
 import { createStackNavigator, createDrawerNavigator, DrawerItems, SafeAreaView } from 'react-navigation';
 import { Icon } from 'react-native-elements';
-import Constants from 'expo-constants';
 import { connect } from 'react-redux'
 import { fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux/ActionCreators';
 
@@ -82,6 +82,20 @@ const ContactNavigator = createStackNavigator({
         onPress={ () => navigation.toggleDrawer() } />    
   })
 });
+
+const FavoritesNavigator = createStackNavigator({ 
+  Favorites : { screen: Favorites } 
+}, {
+    navigationOptions: ({ navigation }) => ({
+      headerStyle: { backgroundColor: "#512DA8"},
+      headerTitleStyle: { color: "#fff" },
+      headerTintColor: "#fff",
+      headerLeft: <Icon name="menu" size={24}
+          color ="white"
+          onPress = {() => navigation.toggleDrawer()} />
+      })
+  }
+);
 
 const ReservationNavigator = createStackNavigator({ 
   Reservation: { screen: Reservation } 
@@ -174,6 +188,21 @@ const MainNavigator = createDrawerNavigator({
         ),
       }
     },
+    Favorites :
+    { screen: FavoritesNavigator,
+      navigationOptions: {
+        title: 'My Favorites',
+        drawerLabel: 'My Favorites',
+        drawerIcon: ({ tintColor, focused }) => (
+          <Icon
+            name='heart'
+            type='font-awesome'            
+            size={24}
+            color = {tintColor}
+          />
+        )
+      }
+    },
   Reservation:
     { screen: ReservationNavigator,
       navigationOptions: {
@@ -205,7 +234,7 @@ class Main extends Component {
 
   render() { 
     return (
-        <View style={{flex:1, paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight}}>
+        <View style={{flex:1}}>
           <MainNavigator />
         </View>
     );
