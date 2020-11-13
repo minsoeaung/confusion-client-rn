@@ -32,6 +32,13 @@ function RenderDish(props) {
             return false;
     }
 
+    const recognizeLeftToRight= ({ moveX, moveY, dx, dy }) => {
+        if (dx > -200) 
+            return true;
+        else 
+            return false;
+    }
+
     const panResponder = PanResponder.create({
         onStartShouldSetPanResponder: (e, gestureState) => {
             return true;
@@ -42,7 +49,7 @@ function RenderDish(props) {
         // },
         onPanResponderEnd: (e, gestureState) => {
             console.log("pan responder end", gestureState);
-            if (recognizeDrag(gestureState))
+            if (recognizeDrag(gestureState)) {
                 Alert.alert(
                     'Add Favorite',
                     'Are you sure you wish to add ' + dish.name + ' to favorite?',
@@ -52,7 +59,9 @@ function RenderDish(props) {
                     ],
                     { cancelable: false }
                 );
-
+            } else if (recognizeLeftToRight(gestureState)) { 
+                props.openModal();
+            }
             return true;
         }
     })
@@ -78,7 +87,7 @@ function RenderDish(props) {
                             name={'pencil'}
                             type='font-awesome'
                             color='#0000FF'
-                            onPress={() => props.onPressPencil() } />
+                            onPress={() => props.openModal() } />
                     </View> 
                 </Card>
          </Animatable.View>
@@ -164,7 +173,7 @@ class Dishdetail extends Component {
                     dish = {this.props.dishes.dishes[+dishId]} 
                     favorite = {this.props.favorites.some(el => el === dishId)} 
                     onPressFav = {() => this.markFavorite(dishId)} 
-                    onPressPencil = {() => this.toggleModal()} 
+                    openModal = {() => this.toggleModal()} 
                 />
                 <RenderComments comments = {this.props.comments.comments.filter((comment) => comment.dishId === dishId)} />
                 <Modal
