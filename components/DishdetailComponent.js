@@ -21,7 +21,9 @@ const mapDispatchToProps = dispatch => ({
 
 function RenderDish(props) {
     
-    const dish = props.dish;    
+    const dish = props.dish;   
+
+    // handleViewRef = ref => this.view = ref;
 
     const recognizeDrag = ({ moveX, moveY, dx, dy }) => {
         if ( dx < -200 )
@@ -34,6 +36,10 @@ function RenderDish(props) {
         onStartShouldSetPanResponder: (e, gestureState) => {
             return true;
         },
+        // onPanResponderGrant: () => {
+        //     this.view.rubberBand(1000)
+        //     .then(endState => console.log(endState.finished ? 'finished' : 'cancelled'));
+        // },
         onPanResponderEnd: (e, gestureState) => {
             console.log("pan responder end", gestureState);
             if (recognizeDrag(gestureState))
@@ -51,9 +57,10 @@ function RenderDish(props) {
         }
     })
 
-    if (dish != null) {
+    if (dish != null) {     
         return (
             <Animatable.View animation="fadeInDown" duration={2000} delay={1000}
+                // ref={this.handleViewRef}
                 {...panResponder.panHandlers} >
                 <Card featuredTitle = {dish.name} image = {{uri: baseUrl + dish.image}}>
                     <Text style = {{margin: 10}}>{dish.description}</Text>
@@ -64,16 +71,14 @@ function RenderDish(props) {
                             name={ props.favorite ? 'heart' : 'heart-o'}
                             type='font-awesome'
                             color='#f50'
-                            onPress={() => props.favorite ? console.log('Already favorite') : props.onPressFav()}
-                        />
+                            onPress={() => props.favorite ? console.log('Already favorite') : props.onPressFav()} />
                         <Icon
                             raised
                             reverse
                             name={'pencil'}
                             type='font-awesome'
                             color='#0000FF'
-                            onPress={() => props.onPressPencil() }
-                        />
+                            onPress={() => props.onPressPencil() } />
                     </View> 
                 </Card>
          </Animatable.View>
@@ -84,7 +89,6 @@ function RenderDish(props) {
 }
 
 function RenderComments(props) {
-
     const comments = props.comments;
             
     const renderCommentItem = ({item, index}) => {
@@ -96,8 +100,7 @@ function RenderComments(props) {
                         count={5}
                         startingValue={item.rating}
                         style={{ paddingVertical: 5 }}
-                        imageSize={15}
-                    />
+                        imageSize={15} />
                 </Text>
                 <Text style={{fontSize: 12}}>{'-- ' + item.author + ', ' + item.date} </Text>
             </View>
@@ -138,13 +141,13 @@ class Dishdetail extends Component {
 
     markFavorite = (dishId) => { this.props.postFavorite(dishId); }
 
-    handleComment(dishId, rating, author, comment) {
+    handleComment = (dishId, rating, author, comment) => {
         this.props.postComment(dishId, rating, author, comment);
         this.toggleModal();
         this.resetCommentForm();
     }
 
-    resetCommentForm() {
+    resetCommentForm = () => {
         this.setState({
             rating: 3,
             author: '',
@@ -161,11 +164,9 @@ class Dishdetail extends Component {
                     dish = {this.props.dishes.dishes[+dishId]} 
                     favorite = {this.props.favorites.some(el => el === dishId)} 
                     onPressFav = {() => this.markFavorite(dishId)} 
-                    onPressPencil = {() => this.toggleModal()}
+                    onPressPencil = {() => this.toggleModal()} 
                 />
-                <RenderComments 
-                    comments = {this.props.comments.comments.filter((comment) => comment.dishId === dishId)}
-                />
+                <RenderComments comments = {this.props.comments.comments.filter((comment) => comment.dishId === dishId)} />
                 <Modal
                     animationType = {"slide"} transparent = {false}
                     visible = {this.state.modalVisible}

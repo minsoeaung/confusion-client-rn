@@ -27,7 +27,7 @@ class Favorites extends Component {
     }
   
     render() {
-
+        
         const { navigate } = this.props.navigation;
 
         if(this.props.dishes.isLoading) {
@@ -46,15 +46,11 @@ class Favorites extends Component {
                     data = {this.props.dishes.dishes.filter( dish => this.props.favorites.some( el => el === dish.id))}
                     renderItem = { ({item, index}) => (
                         <Swipeable
-                            renderRightActions = { ()=> 
-                                <View>
-                                    <Text>Delete</Text>
-                                </View>
-                            }
+                            renderRightActions = { () => <View><Text>Delete</Text></View> }
                             onSwipeableRightOpen = { () => {
                                 Alert.alert(
                                     'Delete Favorite?',
-                                    'Are you sure you wish to delete the favorite dish '+item.name+'?',
+                                    'Are you sure you wish to delete the favorite dish ' + item.name + '?',
                                     [
                                         { 
                                             text: 'Cancel', 
@@ -68,7 +64,7 @@ class Favorites extends Component {
                                     ],
                                     { cancelable: false }
                                 );
-                            } }
+                            }}
                         >
                             <Animatable.View animation="fadeInRightBig" duration={2000}>   
                                 <ListItem
