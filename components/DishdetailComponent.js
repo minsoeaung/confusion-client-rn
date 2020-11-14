@@ -33,7 +33,7 @@ function RenderDish(props) {
     }
 
     const recognizeLeftToRight= ({ moveX, moveY, dx, dy }) => {
-        if (dx > -200) 
+        if (dx > +200) 
             return true;
         else 
             return false;
