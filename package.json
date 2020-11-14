@@ -29,7 +29,9 @@
     "redux-logger": "^3.0.6",
     "redux-persist": "^5.9.1",
     "redux-thunk": "^2.2.0",
-    "expo-secure-store": "~9.2.0"
+    "expo-secure-store": "~9.2.0",
+    "expo-permissions": "~9.3.0",
+    "expo-notifications": "~0.7.2"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"
