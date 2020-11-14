@@ -7,7 +7,6 @@ import { Loading } from './LoadingComponent';
 import { Swipeable } from 'react-native-gesture-handler';
 import { deleteFavorite } from '../redux/ActionCreators';
 import * as Animatable from 'react-native-animatable';
-import Animated from 'react-native-reanimated';
 
 const mapStateToProps = state => {
     return {
