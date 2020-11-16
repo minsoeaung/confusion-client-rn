@@ -36,7 +36,8 @@
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
     "redux-persist": "^5.9.1",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "expo-calendar": "~8.5.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"

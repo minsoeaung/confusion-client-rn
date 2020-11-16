@@ -151,6 +151,18 @@ class RegisterTab extends Component {
         }
     }
 
+    getImageFromGallery = async () => {
+        let imageFromGallery = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4,3]
+        });
+        if(!imageFromGallery.cancelled) {
+            console.log(imageFromGallery);
+            this.setState({imageUrl: imageFromGallery.uri});
+        }
+    }
+
     processImage = async (imageUri) => {
         let processedImage = await ImageManipulator.manipulate(
             imageUri, 
@@ -188,7 +200,7 @@ class RegisterTab extends Component {
             <ScrollView>
             <View style={styles.container}>
                 <View style={styles.imageContainer}>
-                    <Image 
+                    <Image
                         source={{uri: this.state.imageUrl}} 
                         loadingIndicatorSource={require('./images/logo.png')}
                         style={styles.image} 
@@ -197,6 +209,10 @@ class RegisterTab extends Component {
                         title="Camera"
                         onPress={this.getImageFromCamera}
                         />
+                    <Button
+                        title="Gallery"
+                        onPress={this.getImageFromGallery}
+                    />
                 </View>
                 <Input
                     placeholder="Username"
@@ -270,6 +286,8 @@ const styles = StyleSheet.create({
     imageContainer: {
         flex: 1,
         flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         margin: 20
     },
     image: {

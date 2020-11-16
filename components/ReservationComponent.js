@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, StyleSheet, Picker, Switch, Button, Alert } from 'react-native';
+import { Text, View, ScrollView, StyleSheet, Picker, Switch, Button, Alert, Platform } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import * as Animatable from 'react-native-animatable';
 import * as Permissions from 'expo-permissions';
+import * as Calendar from 'expo-calendar';
 import { Notifications } from "expo";
 
 class Reservation extends Component {
@@ -39,7 +40,7 @@ class Reservation extends Component {
         }
         return permission;
     }
-
+    
     async presentLocalNotification(date) {
         await this.obtainNotificationPermission();
         Notifications.presentLocalNotificationAsync({
@@ -53,6 +54,31 @@ class Reservation extends Component {
                 vibrate: true,
                 color: '#512DA8'
             }
+        });
+    }
+    
+    async obtainCalendarPermission() {
+        let permission = await Calendar.getCalendarPermissionsAsync();
+        if (permission.status !== 'granted') {
+            permission = await Calendar.requestCalendarPermissionsAsync();
+            if (permission.status !== 'granted') {
+                Alert.alert('Calendar Permission not granted');
+            }
+        }
+
+        return permission;
+    }
+
+    async addReservationToCalendar(date) {
+        await this.obtainCalendarPermission();
+        const startDate = new Date(Date.Parse(date));
+        const endDate = new Date(Date.Parse(date) + 2 * 60 * 60 * 1000);
+        Calendar.createEventAsync( Calendar.DEFAULT, {
+            title: 'Con Fusion Table Reservation',
+            startDate: startDate,
+            endDate: endDate,
+            timeZone: 'Asia/Hong_Kong',
+            location:  '121, Clear Water Bay Road, Clear Water Bay, Kowloon, Hong Kong',
         });
     }
 
@@ -70,6 +96,7 @@ class Reservation extends Component {
             ],
             { cancelable: false }
         );
+        this.addReservationToCalendar(this.state.date);
     }
     
     resetForm = () => {
@@ -112,21 +139,21 @@ class Reservation extends Component {
                         <DatePicker
                             style={{flex: 2, marginRight: 20}}
                             date={this.state.date}
-                            format="YYYY-MM-DD"
-                            mode="date"
-                            placeholder="Select date"
+                            format=''
+                            mode='datetime'
+                            placeholder="Select date and time"
                             minDate="2020-10-10"
                             confirmBtnText="Confirm"
                             cancelBtnText="Cancel"
                             customStyles={{
-                                dateIcon: {
-                                position: 'absolute',
-                                left: 0,
-                                top: 4,
-                                marginLeft: 0
+                                    dateIcon: {
+                                        position: 'absolute',
+                                        left: 0,
+                                        top: 4,
+                                        marginLeft: 0
                                 },
-                                dateInput: {
-                                marginLeft: 36
+                                    dateInput: {
+                                        marginLeft: 36
                                 }
                             }}
                             onDateChange={(date) => {this.setState({date: date})}}
