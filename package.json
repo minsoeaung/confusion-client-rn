@@ -9,8 +9,16 @@
   },
   "dependencies": {
     "@react-native-community/masked-view": "0.1.10",
+    "@react-native-community/netinfo": "^5.9.7",
     "expo": "~39.0.2",
+    "expo-asset": "~8.2.0",
     "expo-constants": "~9.2.0",
+    "expo-image-manipulator": "~8.3.0",
+    "expo-image-picker": "~9.1.1",
+    "expo-mail-composer": "~8.4.0",
+    "expo-notifications": "~0.7.2",
+    "expo-permissions": "~9.3.0",
+    "expo-secure-store": "~9.2.0",
     "expo-status-bar": "~1.0.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
@@ -28,14 +36,7 @@
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
     "redux-persist": "^5.9.1",
-    "redux-thunk": "^2.2.0",
-    "expo-secure-store": "~9.2.0",
-    "expo-permissions": "~9.3.0",
-    "expo-notifications": "~0.7.2",
-    "expo-mail-composer": "~8.4.0",
-    "expo-image-picker": "~9.1.1",
-    "expo-asset": "~8.2.0",
-    "expo-image-manipulator": "~8.3.0"
+    "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"
