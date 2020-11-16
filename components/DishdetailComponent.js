@@ -202,23 +202,26 @@ class Dishdetail extends Component {
                     <View style = {styles.modal}>
                         <Rating 
                             showRating 
-                            count={5}
-                            startingValue={3}
-                            onFinishRating={ (rating) => this.setState({rating: rating})}
+                            count = {5}
+                            startingValue = {3}
+                            onFinishRating = { (rating) => this.setState({rating: rating})}
+                            value = {this.state.rating}
                         />
                         <Input
-                            placeholder="  Author"
-                            leftIcon={{ type: 'font-awesome', name: 'user-o'}}
-                            onChangeText={ (text) => this.setState({author: text})}
+                            placeholder = "  Author"
+                            leftIcon = {{ type: 'font-awesome', name: 'user-o'}}
+                            onChangeText = { (text) => this.setState({author: text})}
+                            value = {this.state.author}
                         />
                         <Input
-                            placeholder=" Comment"
-                            leftIcon={{ type: 'font-awesome', name: 'comment-o' }}
-                            onChangeText={(text) => this.setState({comment: text})}
+                            placeholder = " Comment"
+                            leftIcon = {{ type: 'font-awesome', name: 'comment-o' }}
+                            onChangeText = {(text) => this.setState({comment: text})}
+                            value = {this.state.comment}
                         />
                         <Button  
-                            title="SUBMIT" 
-                            color="#512DA8"
+                            title = "SUBMIT" 
+                            color = "#512DA8"
                             onPress = { () => {
                                     this.handleComment(
                                         dishId,
@@ -231,8 +234,8 @@ class Dishdetail extends Component {
                         />
                         <Text> </Text>
                         <Button 
-                            title="CANCEL" 
-                            color="grey"
+                            title = "CANCEL" 
+                            color = "grey"
                             onPress = {() => this.toggleModal()}
                         />
                     </View>
